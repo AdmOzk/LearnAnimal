@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Hayvan Bilgisi Al";
+}
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card shadow-lg" style="max-width: 800px; width: 90%;">
+        <div class="card-body text-center">
+            <h1 class="card-title mb-4">Hayvan Bilgisi</h1>
+            <form method="post" asp-action="AnimalInfo">
+                <div class="mb-3">
+                    <label for="animalName" class="form-label">Hayvan İsmi:</label>
+                    <input type="text" id="animalName" name="animalName" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Bilgi Al</button>
+            </form>
+
+            @if (ViewBag.AnimalInfo != null)
+            {
+                <div class="mt-4">
+                    <h4>Hayvan Hakkında Bilgi:</h4>
+                    <p class="text-muted">@ViewBag.AnimalInfo</p>
+                </div>
+            }
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger mt-3">
+                    <p>@ViewBag.Error</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

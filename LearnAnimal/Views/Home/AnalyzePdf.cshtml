@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "PDF Analizi";
+}
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card shadow-lg" style="max-width: 800px; width: 90%;">
+        <div class="card-body text-center">
+            <h1 class="card-title mb-4">PDF Yükle ve Analiz Et</h1>
+            <form method="post" asp-action="AnalyzePdf" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="pdfFile" class="form-label">PDF Dosyası:</label>
+                    <input type="file" class="form-control" id="pdfFile" name="pdfFile" accept="application/pdf" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Analiz Et</button>
+            </form>
+
+            @if (ViewBag.PdfAnalysisResult != null)
+            {
+                <div class="mt-4">
+                    <h4>PDF Analizi Sonucu:</h4>
+                    <p class="text-muted">@ViewBag.PdfAnalysisResult</p>
+                </div>
+            }
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger mt-3">
+                    <p>@ViewBag.Error</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
