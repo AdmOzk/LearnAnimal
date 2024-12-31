@@ -7,10 +7,10 @@ namespace LearnAnimal.Controllers
 {
     public class HomeController : Controller
     {
-     
+        // Dependency injection
         private readonly ClaudeService _claudeService;
 
-        public HomeController( ClaudeService claudeService)
+        public HomeController(ClaudeService claudeService)
         {
             _claudeService = claudeService;
         }
@@ -21,12 +21,13 @@ namespace LearnAnimal.Controllers
             return View();
         }
 
+        // Method to get Animal Information
         [HttpPost]
         public async Task<IActionResult> AnimalInfo(string animalName)
         {
             if (string.IsNullOrEmpty(animalName))
             {
-                ViewBag.Error = "Lütfen bir hayvan ismi girin.";
+                ViewBag.Error = "Please enter an animal name.";
                 return View();
             }
 
@@ -41,8 +42,7 @@ namespace LearnAnimal.Controllers
             return View();
         }
 
-
-        // Fotoðraf Yükle ve Analiz Et Sayfasý
+        // Upload and Analyze Image Page
         [HttpGet]
         public IActionResult AnalyzeImage()
         {
@@ -54,13 +54,13 @@ namespace LearnAnimal.Controllers
         {
             if (image == null || image.Length == 0)
             {
-                ViewBag.Error = "Lütfen geçerli bir PNG fotoðraf yükleyin.";
+                ViewBag.Error = "Please upload a valid PNG image.";
                 return View();
             }
 
             try
             {
-                // Görseli base64 formatýna çevir
+                // Convert the image to Base64 format
                 string base64Image;
                 using (var memoryStream = new MemoryStream())
                 {
@@ -69,18 +69,17 @@ namespace LearnAnimal.Controllers
                     base64Image = Convert.ToBase64String(imageBytes);
                 }
 
-                // Yapay zeka analizini çaðýr
+                // Call AI for analysis
                 var result = await _claudeService.AnimalImage(base64Image);
                 ViewBag.AnalysisResult = result;
             }
             catch (Exception ex)
             {
-                ViewBag.Error = $"Bir hata oluþtu: {ex.Message}";
+                ViewBag.Error = $"An error occurred: {ex.Message}";
             }
 
             return View();
         }
-
 
         [HttpGet]
         public IActionResult AnalyzePdf()
@@ -93,13 +92,13 @@ namespace LearnAnimal.Controllers
         {
             if (pdfFile == null || pdfFile.Length == 0)
             {
-                ViewBag.Error = "Lütfen geçerli bir PDF dosyasý yükleyin.";
+                ViewBag.Error = "Please upload a valid PDF file.";
                 return View();
             }
 
             try
             {
-                // PDF dosyasýný Base64 formatýna çevir
+                // Convert the PDF file to Base64 format
                 string base64Pdf;
                 using (var memoryStream = new MemoryStream())
                 {
@@ -108,19 +107,16 @@ namespace LearnAnimal.Controllers
                     base64Pdf = Convert.ToBase64String(pdfBytes);
                 }
 
-                // Claude AI'den analiz sonucunu al
+                // Get analysis result from Claude AI
                 var result = await _claudeService.AnalyzePdfAsync(base64Pdf);
                 ViewBag.PdfAnalysisResult = result;
             }
             catch (Exception ex)
             {
-                ViewBag.Error = $"PDF analizi sýrasýnda bir hata oluþtu: {ex.Message}";
+                ViewBag.Error = $"An error occurred during PDF analysis: {ex.Message}";
             }
 
             return View();
         }
-
-
-
     }
 }

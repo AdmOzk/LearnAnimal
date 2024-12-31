@@ -2,6 +2,7 @@ using LearnAnimal.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//add service files.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ClaudeService>();
 

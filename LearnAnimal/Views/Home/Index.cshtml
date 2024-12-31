@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Hayvan Bilgisi ve Analiz Merkezi";
+    ViewData["Title"] = "Animal Information and Analysis Center";
 }
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -9,24 +9,24 @@
         <div class="card-body text-center">
             <h1 class="card-title mb-4">Learn Animal</h1>
             <p class="card-text text-muted">
-                Hayvan isimlerinden bilgi alabilir, fotoğrafları analiz edebilir ve PDF dosyalarındaki hayvanlar hakkında bilgi edinebilirsiniz.
+                Get information about animal names, analyze photos, and learn about animals in PDF files.
             </p>
 
-            <!-- Yönlendirme Butonları -->
+            <!-- Navigation Buttons -->
             <div class="row mt-4">
                 <div class="col-md-4 mb-3 mb-md-0">
                     <a href="@Url.Action("AnimalInfo", "Home")" class="btn btn-primary btn-lg w-100">
-                        <i class="bi bi-info-circle"></i> Hayvan Bilgisi Al
+                        <i class="bi bi-info-circle"></i> Get Animal Information
                     </a>
                 </div>
                 <div class="col-md-4 mb-3 mb-md-0">
                     <a href="@Url.Action("AnalyzeImage", "Home")" class="btn btn-success btn-lg w-100">
-                        <i class="bi bi-image"></i> Fotoğraf Analizi
+                        <i class="bi bi-image"></i> Photo Analysis
                     </a>
                 </div>
                 <div class="col-md-4">
                     <a href="@Url.Action("AnalyzePdf", "Home")" class="btn btn-warning btn-lg w-100 text-white">
-                        <i class="bi bi-file-earmark-pdf"></i> PDF Analizi
+                        <i class="bi bi-file-earmark-pdf"></i> PDF Analysis
                     </a>
                 </div>
             </div>

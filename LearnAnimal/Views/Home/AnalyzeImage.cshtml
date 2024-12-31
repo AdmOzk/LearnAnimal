@@ -1,29 +1,29 @@
 ﻿@{
-    ViewData["Title"] = "Fotoğraf Analizi";
+    ViewData["Title"] = "Photo Analysis";
 }
 
 <div class="d-flex align-items-center justify-content-center vh-100">
     <div class="card shadow-lg" style="max-width: 800px; width: 90%;">
         <div class="card-body text-center">
-            <h1 class="card-title mb-4">Fotoğraf Yükle ve Hayvanı Tanı</h1>
+            <h1 class="card-title mb-4">Upload Photo and Identify Animal</h1>
             <form method="post" asp-action="AnalyzeImage" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="image" class="form-label">Fotoğraf Yükle (PNG):</label>
+                    <label for="image" class="form-label">Upload Photo (PNG):</label>
                     <input type="file" class="form-control" id="image" name="image" accept="image/png" onchange="previewImage(event)" required />
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Yüklediğiniz Fotoğraf:</label>
+                    <label class="form-label">Uploaded Photo:</label>
                     <img id="imagePreview" class="img-fluid border rounded" style="max-height: 300px; display: none;" />
                 </div>
 
-                <button type="submit" class="btn btn-success w-100">Analiz Et</button>
+                <button type="submit" class="btn btn-success w-100">Analyze</button>
             </form>
 
             @if (ViewBag.AnalysisResult != null)
             {
                 <div class="mt-4">
-                    <h4>Analiz Sonucu:</h4>
+                    <h4>Analysis Result:</h4>
                     <p class="text-muted">@ViewBag.AnalysisResult</p>
                 </div>
             }

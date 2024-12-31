@@ -13,6 +13,7 @@ namespace LearnAnimal.Services
     {
         private readonly AmazonBedrockRuntimeClient _bedrockClient;
 
+        //aws configurations
         public ClaudeService(IConfiguration configuration)
         {
             var accessKeyId = configuration["AWS:AccessKeyId"];
@@ -33,9 +34,11 @@ namespace LearnAnimal.Services
             _bedrockClient = new AmazonBedrockRuntimeClient(credentials, config);
         }
 
+        //method for image input
+        //Claude sonnet 3.0 version supports only png format.
         public async Task<string> AnimalImage(string base64Image)
         {
-            var systemPrompt = $"Fotoğraf: {base64Image}. Bu hayvan nedir? Kısa bilgi ver. (Türkçe)";
+            var systemPrompt = $"Image: {base64Image}. What is this animal? give short information. (English)";
 
             var input = new
             {
@@ -62,6 +65,7 @@ namespace LearnAnimal.Services
                                 },
                     }
                 },
+                //model parameters
                 max_tokens = 1000,
 
                 temperature = 0.1,
@@ -73,8 +77,9 @@ namespace LearnAnimal.Services
                 stop_sequences = new string[] { },
 
                 anthropic_version = "bedrock-2023-05-31"
-            }; //bitis
+            }; 
 
+            //conver input to json
             var inputJson = JsonSerializer.Serialize(input);
 
             var request = new InvokeModelRequest
@@ -86,6 +91,7 @@ namespace LearnAnimal.Services
                 Body = new MemoryStream(Encoding.UTF8.GetBytes(inputJson))
             };
 
+            //extract response from ai model.
             var response = await _bedrockClient.InvokeModelAsync(request);
 
             using (var reader = new StreamReader(response.Body))
@@ -96,6 +102,7 @@ namespace LearnAnimal.Services
 
                 var root = jsonDocument.RootElement;
 
+                //get the specific text response from whole json.
                 if (root.TryGetProperty("content", out var contentArray) && contentArray.ValueKind == JsonValueKind.Array)
                 {
                     foreach (var content in contentArray.EnumerateArray())
@@ -107,20 +114,22 @@ namespace LearnAnimal.Services
                     }
                 }
 
-                return "Bu hayvan hakkında bilgi bulunamadı.";
+                return "No information found for this animal.";
             }
         }
 
 
 
-        //pdf
 
 
 
+        //method for pdf input
+        // !!! NOT SUPPORTED FOR CLAUDE SONNET 3.0 VERSION 
         public async Task<string> AnalyzePdfAsync(string base64Pdf)
         {
-            var systemPrompt = $"PDF: {base64Pdf}. Bu PDF'deki hayvanlar hakkında bilgi ver. (Türkçe)";
+            var systemPrompt = $"PDF: {base64Pdf}. Give information about the animals in this PDF. (English)";
 
+            //specify input type.
             var input = new
             {
                 system = systemPrompt,
@@ -146,6 +155,7 @@ namespace LearnAnimal.Services
                 }
             }
         },
+        //model parameters
                 max_tokens = 1500,
                 temperature = 0.1,
                 top_p = 0.9,
@@ -154,6 +164,7 @@ namespace LearnAnimal.Services
                 anthropic_version = "bedrock-2023-05-31"
             };
 
+            //convert input to json.
             var inputJson = JsonSerializer.Serialize(input);
 
             var request = new InvokeModelRequest
@@ -163,6 +174,7 @@ namespace LearnAnimal.Services
                 Body = new MemoryStream(Encoding.UTF8.GetBytes(inputJson))
             };
 
+            //extract the response from ai model
             var response = await _bedrockClient.InvokeModelAsync(request);
 
             using (var reader = new StreamReader(response.Body))
@@ -172,6 +184,7 @@ namespace LearnAnimal.Services
                 var jsonDocument = JsonDocument.Parse(responseBody);
                 var root = jsonDocument.RootElement;
 
+                //get specific text.
                 if (root.TryGetProperty("content", out var contentArray) && contentArray.ValueKind == JsonValueKind.Array)
                 {
                     foreach (var content in contentArray.EnumerateArray())
@@ -183,7 +196,7 @@ namespace LearnAnimal.Services
                     }
                 }
 
-                return "Bu PDF hakkında bilgi bulunamadı.";
+                return "No information found for this PDF.";
             }
         }
 
@@ -193,13 +206,12 @@ namespace LearnAnimal.Services
 
 
 
-        //text
-
-
+        //method for text input
         public async Task<string> GetAnimalInfoAsync(string animalName)
         {
-            var systemPrompt = $"Hayvan: {animalName}. Bu hayvan hakkında detaylı bir paragraf bilgi ver.";
+            var systemPrompt = $"Animal: {animalName}. Give a paragraph of detailed information about this animal.";
 
+            //specify input type.
             var input = new
             {
                 system = systemPrompt,
@@ -210,9 +222,10 @@ namespace LearnAnimal.Services
                     {
                         role = "user",
 
-                        content = $"Hayvan: {animalName} hakkında bilgi ver"
+                        content = $"Give information about animal: {animalName}"
                     }
                 },
+                //model parameters
                 max_tokens = 1000,
 
                 temperature = 0.1,
@@ -226,6 +239,7 @@ namespace LearnAnimal.Services
                 anthropic_version = "bedrock-2023-05-31"
             };
 
+            //Convert input to json.
             var inputJson = JsonSerializer.Serialize(input);
 
             var request = new InvokeModelRequest
@@ -237,6 +251,7 @@ namespace LearnAnimal.Services
                 Body = new MemoryStream(Encoding.UTF8.GetBytes(inputJson))
             };
 
+            //extract the response from ai model
             var response = await _bedrockClient.InvokeModelAsync(request);
 
             using (var reader = new StreamReader(response.Body))
@@ -258,7 +273,7 @@ namespace LearnAnimal.Services
                     }
                 }
 
-                return "Bu hayvan hakkında bilgi bulunamadı.";
+                return "No information found for this animal.";
             }
         }
 
