@@ -40,6 +40,7 @@ https://medium.com/@adem.ozkyt/use-claude-sonnet-with-net-a-comprehensive-guide-
 
 # Linkedin Post
 ## Check out the demo video from Linkedin post
+https://www.linkedin.com/posts/adem-%C3%B6zkay%C4%B1t-945003238_ai-yapayzeka-claudesonnet-activity-7284970269968846849-6aSE?utm_source=share&utm_medium=member_desktop
 
 
 # Project Screen Shuts (From Turkish Language Option, Program in Repository updated to English language.)
